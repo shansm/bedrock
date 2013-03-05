@@ -54,6 +54,8 @@ $(function() {
             url = data.url,
             currentPlugin = {};
 
+            console.log(data.status);
+
         if(data.status === 'outdated') {
             currentPlugin['vulnerablePlugins'] = {
                     'icon': 'default.png',
@@ -70,7 +72,7 @@ $(function() {
                     'plugin_status': 'unknown',
                     'url': unknownPluginUrl(plugin.name)
             };
-        } else if(data.status === 'latest') {
+        } else if(data.status === 'latest' || data.status === 'newer') {
             currentPlugin['upToDatePlugins'] = {
                     'icon': 'default.png',
                     'plugin_name': plugin.name,
