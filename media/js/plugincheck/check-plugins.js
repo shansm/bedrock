@@ -54,9 +54,11 @@ $(function() {
             url = data.url,
             currentPlugin = {};
 
-            console.log(data.status);
+            console.log(data.pluginInfo);
 
-        if(data.status === 'outdated') {
+        if(data.status === 'outdated' || data.status === 'maybe_outdated' ||
+            data.status === 'should_disable' || data.status === 'vulnerable' ||
+            data.status === 'maybe_vulnerable') {
             currentPlugin['vulnerablePlugins'] = {
                     'icon': 'default.png',
                     'plugin_name': plugin.name,
