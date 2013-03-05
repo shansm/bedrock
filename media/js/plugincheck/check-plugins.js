@@ -90,10 +90,4 @@ $(function() {
     };
 
     checkPlugins('https://plugins.mozilla.org/pfs/v2', buildObject, pluginCheckComplete);
-
-    if (!document.referrer || location.href.indexOf('java=1') < 0) {
-        if (! PluginDetect.getVersion('Java')) {
-            $('.blocklisted.java').show();
-        }
-    }
 });
