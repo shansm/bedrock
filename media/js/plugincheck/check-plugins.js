@@ -1,12 +1,15 @@
 $(function() {
     var vulnerablePluginsSection = $('#sec-plugin-vulnerable'),
-        unknownPluginsSection = $('#sec-plugin-unknown'),
-        upToDatePluginsSection = $('#sec-plugin-uptodate'),
         vulnerablePluginsBody = $('#plugin-vulnerable'),
-        unknownPluginsBody = $('#plugin-unknown'),
-        upToDatePluginsBody = $('#plugin-uptodate'),
         vulnerablePluginsHtml = '',
+        outdatedPluginsSection = $('#sec-plugin-outdated'),
+        outdatedPluginsBody = $('#plugin-outdated'),
+        outdatedPluginsHtml = '',
+        unknownPluginsSection = $('#sec-plugin-unknown'),
+        unknownPluginsBody = $('#plugin-unknown'),
         unknownPluginsHtml = '',
+        upToDatePluginsSection = $('#sec-plugin-uptodate'),
+        upToDatePluginsBody = $('#plugin-uptodate'),
         upToDatePluginsHtml = '';
 
     var showPlugin = function(data) {
@@ -19,6 +22,18 @@ $(function() {
             // bother to call show and save some repainting.
             if(!vulnerablePluginsSection + ':visible') {
                 vulnerablePluginsSection.show();
+            }
+        }
+
+        // If the latest response from the service was a outdated plugin,
+        // pass the object here.
+        if(data.outdatedPlugins) {
+            outdatedPluginsHtml = Mustache.to_html(outdatedPluginsTmpl, data);
+            outdatedPluginsBody.append(outdatedPluginsHtml);
+            // If this section is already visible, do not
+            // bother to call show and save some repainting.
+            if(!outdatedPluginsSection + ':visible') {
+                outdatedPluginsSection.show();
             }
         }
 
@@ -56,37 +71,45 @@ $(function() {
 
             console.log(data.pluginInfo);
 
-        if(data.status === 'outdated' || data.status === 'maybe_outdated' ||
-            data.status === 'should_disable' || data.status === 'vulnerable' ||
+        if(data.status === 'should_disable' || data.status === 'vulnerable' ||
             data.status === 'maybe_vulnerable') {
             currentPlugin['vulnerablePlugins'] = {
-                    'icon': 'default.png',
-                    'plugin_name': plugin.name,
-                    'plugin_detail': plugin.description,
-                    'plugin_status': 'vulnerable',
-                    'url': url
+                'icon': 'default.png',
+                'plugin_name': plugin.name,
+                'plugin_detail': plugin.description,
+                'plugin_status': 'vulnerable',
+                'url': url
+            };
+        } else if(data.status === 'outdated' || data.status === 'maybe_outdated') {
+            currentPlugin['outdatedPlugins'] = {
+                'icon': 'default.png',
+                'plugin_name': plugin.name,
+                'plugin_detail': plugin.description,
+                'plugin_status': 'vulnerable',
+                'url': url
             };
         } else if(data.status === 'unknown') {
             currentPlugin['unknownPlugins'] = {
-                    'icon': 'default.png',
-                    'plugin_name': plugin.name,
-                    'plugin_detail': plugin.description,
-                    'plugin_status': 'unknown',
-                    'url': unknownPluginUrl(plugin.name)
+                'icon': 'default.png',
+                'plugin_name': plugin.name,
+                'plugin_detail': plugin.description,
+                'plugin_status': 'unknown',
+                'url': unknownPluginUrl(plugin.name)
             };
         } else if(data.status === 'latest' || data.status === 'newer') {
             currentPlugin['upToDatePlugins'] = {
-                    'icon': 'default.png',
-                    'plugin_name': plugin.name,
-                    'plugin_detail': plugin.description,
-                    'plugin_status': plugin.version,
-                    'url': url
+                'icon': 'default.png',
+                'plugin_name': plugin.name,
+                'plugin_detail': plugin.description,
+                'plugin_status': plugin.version,
+                'url': url
             };
         }
         showPlugin(currentPlugin);
     },
     pluginCheckComplete = function() {
-        console.log("pluginCheckComplete called");
+        var pfsStatus = $('#pfs-status');
+        pfsStatus.empty();
     };
 
     checkPlugins('https://plugins.mozilla.org/pfs/v2', buildObject, pluginCheckComplete);

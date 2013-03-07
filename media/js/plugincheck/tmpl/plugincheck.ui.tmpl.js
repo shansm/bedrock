@@ -7,6 +7,15 @@ var vulnerablePluginsTmpl = '{{#vulnerablePlugins}} <tr><td>' +
                         '<td class="status">{{plugin_status}}</td>' +
                         '<td class="action"><a href="{{ url }}" class="button button-negative"><span>Update Now</span></a></td>' +
                         '</tr> {{/vulnerablePlugins}}',
+    outdatedPluginsTmpl = '{{#outdatedPlugins}} <tr><td>' +
+                        '<section>' +
+                        '<img class="icon" width="60" height="60" src="/media/img/plugincheck/app-icons/{{icon}}" alt="Plugin Icon" />' +
+                        '<h4 class="name">{{plugin_name}}</h4>' +
+                        '<p class="plugin-detail">{{plugin_detail}}</p>' +
+                        '</section></td>' +
+                        '<td class="status">{{plugin_status}}</td>' +
+                        '<td class="action"><a href="{{ url }}" class="button button-negative"><span>Update Now</span></a></td>' +
+                        '</tr> {{/outdatedPlugins}}',
     unknownPluginsTmpl = '{{#unknownPlugins}} <tr><td>' +
                         '<section>' +
                         '<img class="icon" width="60" height="60" src="/media/img/plugincheck/app-icons/{{icon}}" alt="Plugin Icon" />' +
