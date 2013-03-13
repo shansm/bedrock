@@ -41,8 +41,4 @@ urlpatterns = patterns('',
     url(r'^plugincheck/$',
         views.plugincheck,
         name='mozorg.plugincheck'),
-    url(r'^plugincheck/more_info',
-        views.plugincheck,
-        kwargs={'template': 'mozorg/plugincheck_more_info.html'},
-        name='mozorg.plugincheck_more_info'),
 )
