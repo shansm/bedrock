@@ -1,14 +1,47 @@
 {% extends 'newsletter/one_newsletter_signup.html' %}
-{% from "macros.html" import email_newsletter_form with context %}
 
-{% block page_title %}Firefox and You{% endblock %}
+{% set newsletter_title = _('Mozilla Newsletter') %}
+{% set newsletter_id = 'mozilla-and-you' %}
+
+{% block page_title %}{{ _('Mozilla Newsletter') }}{% endblock %}
 
 {% block newsletter_content %}
   <div id="main-feature">
-  <h2>Read all about it in our <span>newsletter</span></h2>
-  <p>Subscribe to monthly updates and keep current with Mozilla news,
-     including the latest tips and tricks for getting the most out of
-     your Firefox browser. It’s the perfect way for us to keep in touch!
-  </p>
+    <h1 class="large">{{ _('Read all about it in our newsletter') }}</h1>
+    <p>
+      {% trans %}
+        Subscribe to monthly updates and keep current with Mozilla news,
+        including the latest tips and tricks for getting the most out of
+        your Firefox browser. It’s the perfect way for us to keep in touch!
+      {% endtrans %}
+    </p>
   </div>
 {% endblock %}
+
+{% block success_en %}
+  {# This text is only used for English users, so no need to translate #}
+  <p>
+    We look forward to sharing tips & tricks on getting the most out
+    of Firefox, as well as exciting news about Mozilla and how we’re
+    working to create a better Web.
+  </p>
+  <p>
+    Please add our sending address:
+    <a href="mailto:mozilla@e.mozilla.org">mozilla@e.mozilla.org</a>
+    to your address book to ensure we
+    always reach your inbox.
+  </p>
+{% endblock success_en %}
+
+{% block success_non_en %}
+  {% trans email='mozilla@e.mozilla.org' %}
+    <p>Thanks! Please check your inbox to confirm your subscription.</p>
+    <p>
+      You'll receive an email from
+      <a href="mailto:{{ email }}">{{ email }}</a>
+      to confirm your subscription. If
+      you don't see it, check your spam filter. You must confirm your
+      subscription to receive our newsletter.
+    </p>
+  {% endtrans %}
+{% endblock success_non_en %}
