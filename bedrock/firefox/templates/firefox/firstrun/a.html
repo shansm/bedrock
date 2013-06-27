@@ -4,6 +4,10 @@
 
 {% extends "firefox/base.html" %}
 
+{% block ga_experiments %}
+<script src="//cdn.optimizely.com/js/246059135.js"></script>
+{% endblock %}
+
 {% block page_title %}{{ _('Welcome to Firefox') }}{% endblock %}
 {% block body_id %}firefox-firstrun{% endblock %}
 
@@ -11,7 +15,7 @@
 {% block site_header_logo %}{% endblock %}
 
 {% block extrahead %}
- <link rel="canonical" href="https://www.mozilla.org/en-US/firefox/21.0/firstrun/" />
+  <link rel="canonical" href="https://www.mozilla.org/en-US/firefox/21.0/firstrun/" />
 {% endblock %}
 
 {% block site_css %}

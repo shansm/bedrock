@@ -20,8 +20,8 @@ whatsnew_re = latest_re % (version_re, 'whatsnew')
 # currently want to restrict to 21.0 only, but
 # left here for possible future use
 # remove when firstrun experiment is over
-#latest_new_re = r'^firefox(?:/(%s))?/firstrun/(?P<view>[a|b])(?P<version>[1-6])/$'
-#firstrun_new_re = latest_new_re % version_re
+latest_new_re = r'^firefox(?:/(%s))?/firstrun/(?P<view>[a|b])(?P<version>[1-6])/$'
+firstrun_new_re = latest_new_re % version_re
 
 
 urlpatterns = patterns('',
@@ -67,7 +67,7 @@ urlpatterns = patterns('',
     # firstrun tests
     # temporarily disabled - will be used on demo server 2013-06
     # remove when instructed by bug 877202
-    #url('^firefox/21.0/firstrun/(?P<view>[a|b])(?P<version>[1-6])/$', views.firstrun_new, name='firefox.firstrun.new'),
+    url('^firefox/21.0/firstrun/(?P<view>[a|b])(?P<version>[1-6])/$', views.firstrun_new, name='firefox.firstrun.new'),
 
     url(r'^firefox/partners/$', views.firefox_partners,
         name='firefox.partners.index'),
