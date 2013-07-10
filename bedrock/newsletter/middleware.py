@@ -19,6 +19,12 @@ class NewsletterMiddleware(object):
         if is_footer_form:
             if form.is_valid():
                 data = form.cleaned_data
+
+                # If data['lang'] is set, pass it to the template.
+                # If it's None, empty, or nonexistent, pass 'en'.
+                request.newsletter_lang = data.get('lang', 'en').strip() \
+                    or 'en'
+
                 kwargs = {
                     'format': data['fmt'],
                 }
