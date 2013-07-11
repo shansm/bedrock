@@ -316,9 +316,10 @@ def one_newsletter_signup(request, template_name):
 
     if form.is_valid():
         data = form.cleaned_data
+        request.newsletter_lang = data.get('lang', 'en') or 'en'
         kwargs = {
             'format': data['fmt'],
-            }
+        }
         # add optional data
         kwargs.update(dict((k, data[k]) for k in ['country',
                                                   'lang',
