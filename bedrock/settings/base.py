@@ -378,7 +378,7 @@ MINIFY_BUNDLES = {
             'js/base/mozilla-input-placeholder.js',
         ),
         'existing': (
-            'js/newsletter/existing.js',  
+            'js/newsletter/existing.js',
         ),
         'expanders': (
             'js/base/mozilla-expanders.js',
@@ -598,6 +598,8 @@ DOMAIN_METHODS = {
 LESS_PREPROCESS = False
 LESS_BIN = 'lessc'
 
+FRAME_OPTIONS_ALLOW_FROM = 'https://www.optimizely.com'
+
 MIDDLEWARE_CLASSES = (
     'bedrock.mozorg.middleware.MozorgRequestTimingMiddleware',
     'django_statsd.middleware.GraphiteMiddleware',
@@ -616,6 +618,7 @@ MIDDLEWARE_CLASSES = (
     'bedrock.newsletter.middleware.NewsletterMiddleware',
     'dnt.middleware.DoNotTrackMiddleware',
     'lib.l10n_utils.middleware.FixLangFileTranslationsMiddleware',
+    'bedrock.mozorg.middleware.FrameOptionsHeader',
 ))
 
 INSTALLED_APPS = get_apps(exclude=(
@@ -703,8 +706,8 @@ LOCALES_WITH_TRANSITION = ['en-US', 'af', 'ar', 'ast', 'be', 'bg',
 
 # Locales showing the 15th Anniversary slideshow on /contribute
 LOCALES_WITH_MOZ15 = ['bg', 'cs', 'de', 'el', 'en-GB', 'en-US', 'es-AR', 'es-CL',
-                      'es-ES', 'es-MX', 'fr', 'fy-NL', 'hr', 'id', 'it', 'lt', 
-                      'ms', 'nl', 'pl' ,'pt-BR', 'ru', 'sl', 'sq', 'sr', 'ta', 
+                      'es-ES', 'es-MX', 'fr', 'fy-NL', 'hr', 'id', 'it', 'lt',
+                      'ms', 'nl', 'pl', 'pt-BR', 'ru', 'sl', 'sq', 'sr', 'ta',
                       'zh-CN', 'zh-TW']
 
 # reCAPTCHA keys
