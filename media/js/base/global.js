@@ -150,13 +150,17 @@ function gaTrack(eventsArray, callback) {
         timer = setTimeout(gaCallback, 500);
         // But ordinarily, we get GA to call us back immediately after
         // it finishes sending our things.
-        window._gaq.push(
-            // https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#hitCallback
-            // This is called AFTER GA has sent all pending data:
-            ['_set', 'hitCallback', gaCallback()]
-        );
-        // send events to GA
-        window._gaq.push.apply(window._gaq, eventsArray);
+
+        // https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#hitCallback
+        // This is called AFTER GA has sent all pending data:
+
+        //window._gaq.push(['_set', 'hitCallback', gaCallback()]);
+
+        $.each(eventsArray, function (i, evt) {
+            // send events to GA
+            window._gaq.push(evt);
+        });
+        
     } else {
         // GA disabled or blocked or something, make sure we still
         // call the caller's callback:
