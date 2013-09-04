@@ -5,7 +5,6 @@
 
 from django.conf import settings
 from django.core import mail
-from django.test.client import Client
 from django.test.utils import override_settings
 
 from captcha.fields import ReCaptchaField
@@ -25,9 +24,6 @@ _ALL = settings.STUB_INSTALLER_ALL
 
 
 class TestViews(TestCase):
-    def setUp(self):
-        self.client = Client()
-
     def test_hacks_newsletter_frames_allow(self):
         """
         Bedrock pages get the 'x-frame-options: DENY' header by default.
@@ -66,7 +62,6 @@ class TestUniversityAmbassadors(TestCase):
         mock_subscribe.return_value = {'token': 'token-example',
                                        'status': 'ok',
                                        'created': 'True'}
-        c = Client()
         data = {'email': u'dude@example.com',
                 'country': 'gr',
                 'fmt': 'H',
@@ -91,7 +86,7 @@ class TestUniversityAmbassadors(TestCase):
                         'STUDENTS_CITY': data['city'],
                         'STUDENTS_ALLOW_SHARE': 'N'}
         with self.activate('en-US'):
-            c.post(reverse('mozorg.contribute_university_ambassadors'), data)
+            self.client.post(reverse('mozorg.contribute_university_ambassadors'), data)
         mock_subscribe.assert_called_with(
             data['email'], ['ambassadors', 'about-mozilla'], format=u'H',
             country=u'gr', source_url=u'',
@@ -105,7 +100,6 @@ class TestUniversityAmbassadors(TestCase):
 @patch.object(l10n_utils, 'lang_file_is_active', lambda *x: True)
 class TestContribute(TestCase):
     def setUp(self):
-        self.client = Client()
         with self.activate('en-US'):
             self.url_en = reverse('mozorg.contribute')
         with self.activate('pt-BR'):
@@ -299,7 +293,7 @@ class TestRobots(TestCase):
 
     @override_settings(SITE_URL='https://www.mozilla.org')
     def test_robots_no_redirect(self):
-        response = Client().get('/robots.txt')
+        response = self.client.get('/robots.txt')
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context_data['disallow_all'])
         self.assertEqual(response.get('Content-Type'), 'text/plain')
