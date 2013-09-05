@@ -60,6 +60,24 @@
         var $thankYou = $('.thankyou');
         var hash_change = ('onhashchange' in window);
 
+        // Add external link tracking
+        $(document).click(function(e) {
+            if (e.target.nodeName === 'A' && e.target.hostname && e.target.hostname !== location.hostname) {
+                var newTab = (e.target.target === '_blank' || e.metaKey || e.crtlKey);
+                var href = e.target.href;
+                var callback = function() {
+                    window.location = href;
+                };
+
+                if (newTab) {
+                    gaTrack(['_trackEvent', '/new Interaction', 'click', href]);
+                } else {
+                    e.preventDefault();
+                    gaTrack(['_trackEvent', '/new Interaction', 'click', href], callback);
+                }
+            }
+        });
+
         if (site.platform === 'android') {
             $('#download-button-android .download-subtitle').html(
                 $('.android.download-button-wrapper').data('upgradeSubtitle'));
@@ -162,24 +180,6 @@
                         show_scene(1);
                     }
                 });
-            }
-        });
-
-        // Add external link tracking
-        $(document).click(function(e) {
-            if (e.target.nodeName === 'A' && e.target.hostname && e.target.hostname !== location.hostname) {
-                var newTab = (e.target.target === '_blank' || e.metaKey || e.crtlKey);
-                var href = e.target.href;
-                var callback = function() {
-                    window.location = href;
-                };
-
-                if (newTab) {
-                    gaTrack(['_trackEvent', '/new Interaction', 'click', href]);
-                } else {
-                    e.preventDefault();
-                    gaTrack(['_trackEvent', '/new Interaction', 'click', href], callback);
-                }
             }
         });
     });
