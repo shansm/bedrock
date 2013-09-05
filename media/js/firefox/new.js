@@ -12,28 +12,53 @@
     var virtual_url = ('/' + locale + '/products/download.html' +
                        query_str + 'referrer=' + referrer);
 
+    var $html = $(document.documentElement);
+
+    if (isFirefox()) {
+        var latestFirefoxVersion = $html.attr('data-latest-firefox');
+        latestFirefoxVersion = parseInt(latestFirefoxVersion.split('.')[0], 10);
+        latestFirefoxVersion--; // subtract one since a silent update may be
+                                // complete and the user hasn't restarted their
+                                // browser. This will be removed once there's
+                                // a way to get the current version directly
+                                // from the browser
+
+        if (isFirefoxUpToDate(latestFirefoxVersion + '')) {
+            $html.addClass('firefox-latest');
+        } else {
+            $html.addClass('firefox-old');
+        }
+    }
+
+    // Add GA custom tracking and external link tracking
+    var state = 'Original State';
+    if ($html.hasClass('android')) {
+        if ($html.hasClass('firefox-latest')) {
+            state = 'Android, up-to-date';
+        } else if ($html.hasClass('firefox-old')) {
+            state = 'Android, not up-to-date';
+        } else {
+            state = 'Android, no Fx detected';
+        }
+    } else if ($html.hasClass('ios')) {
+        state = 'iOS';
+    } else if ($html.hasClass('fxos')) {
+        state = 'FxOS';
+    } else {
+        if ($html.hasClass('firefox-latest')) {
+            state = 'Desktop, up-to-date';
+        } else if ($html.hasClass('firefox-old')) {
+            state = 'Desktop, not up-to-date';
+        }
+    }
+    window._gaq = _gaq || [];
+    window._gaq.push(['_setCustomVar', 4, '/new conditional message', state, 3]);
+
     $(document).ready(function() {
-        var $html = $(document.documentElement);
         var $scene1 = $('#scene1');
         var $stage = $('#stage-firefox');
         var $thankYou = $('.thankyou');
         var hash_change = ('onhashchange' in window);
-
-        if (isFirefox()) {
-            var latestFirefoxVersion = $html.attr('data-latest-firefox');
-            latestFirefoxVersion = parseInt(latestFirefoxVersion.split('.')[0], 10);
-            latestFirefoxVersion--; // subtract one since a silent update may be
-                                    // complete and the user hasn't restarted their
-                                    // browser. This will be removed once there's
-                                    // a way to get the current version directly
-                                    // from the browser
-
-            if (isFirefoxUpToDate(latestFirefoxVersion + '')) {
-                $html.addClass('firefox-latest');
-            } else {
-                $html.addClass('firefox-old');
-            }
-        }
 
         if (site.platform === 'android') {
             $('#download-button-android .download-subtitle').html(
@@ -137,30 +162,6 @@
                 });
             }
         });
-
-        // Add GA custom tracking and external link tracking
-        var state = 'Original State';
-        if ($html.hasClass('android')) {
-            if ($html.hasClass('firefox-latest')) {
-                state = 'Android, up-to-date';
-            } else if ($html.hasClass('firefox-old')) {
-                state = 'Android, not up-to-date';
-            } else {
-                state = 'Android, no Fx detected';
-            }
-        } else if ($html.hasClass('ios')) {
-            state = 'iOS';
-        } else if ($html.hasClass('fxos')) {
-            state = 'FxOS';
-        } else {
-            if ($html.hasClass('firefox-latest')) {
-                state = 'Desktop, up-to-date';
-            } else if ($html.hasClass('firefox-old')) {
-                state = 'Desktop, not up-to-date';
-            }
-        }
-        window._gaq = _gaq || [];
-        window._gaq.push(['_setCustomVar', 4, '/new conditional message', state, 3]);
 
         // Add external link tracking
         $(document).click(function(e) {
