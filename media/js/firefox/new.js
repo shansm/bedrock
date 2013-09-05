@@ -31,24 +31,24 @@
     }
 
     // Add GA custom tracking and external link tracking
-    var state = 'Original State';
+    var state = 'Desktop, not Firefox';
     if ($html.hasClass('android')) {
         if ($html.hasClass('firefox-latest')) {
-            state = 'Android, up-to-date';
+            state = 'Android, Firefox up-to-date';
         } else if ($html.hasClass('firefox-old')) {
-            state = 'Android, not up-to-date';
+            state = 'Android, Firefox not up-to-date';
         } else {
-            state = 'Android, no Fx detected';
+            state = 'Android, not Firefox';
         }
     } else if ($html.hasClass('ios')) {
-        state = 'iOS';
+        state = 'iOS, Firefox not supported';
     } else if ($html.hasClass('fxos')) {
         state = 'FxOS';
     } else {
         if ($html.hasClass('firefox-latest')) {
-            state = 'Desktop, up-to-date';
+            state = 'Desktop, Firefox up-to-date';
         } else if ($html.hasClass('firefox-old')) {
-            state = 'Desktop, not up-to-date';
+            state = 'Desktop, Firefox not up-to-date';
         }
     }
     window._gaq = _gaq || [];
