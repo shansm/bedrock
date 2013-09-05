@@ -197,7 +197,12 @@ html.android {
 
 /* FxOS */
 html.fxos {
-    /* show helpful links */
+    // hide conditional messaging for firefox users,
+    // they get updates from the OS directly.
+    .version-message-container {
+        display: none;
+    }
+
     .fxos-latest-links-wrapper {
         display: block;
         padding-top: 26px;
