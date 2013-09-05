@@ -117,8 +117,10 @@
                 var url = $(e.currentTarget).attr('href');
 
                 function track_and_redirect(url, virtual_url) {
-                    ['_trackPageview', virtual_url],
-                    function() { location.href = url; }
+                    gaTrack(
+                        ['_trackPageview', virtual_url],
+                        function() { location.href = url; }
+                    );
                 }
 
                 // we must use a popup to trigger download for IE6/7/8 as the
