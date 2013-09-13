@@ -62,7 +62,8 @@
 
         // Add external link tracking
         $(document).on('click', 'a', function(e) {
-            if (this.hostname && this.hostname !== location.hostname) {
+            // only track off-site links and don't track download.mozilla.org links
+            if (this.hostname && this.hostname !== location.hostname && this.hostname !== 'download.mozilla.org') {
                 var newTab = (this.target === '_blank' || e.metaKey || e.ctrlKey);
                 var href = this.href;
                 var callback = function() {
